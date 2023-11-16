@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 
 class StartScreen extends StatelessWidget {
   // key ส่งต่อไปยัง super class
-  const StartScreen({super.key});
+  const StartScreen(this.startQuiz, {super.key});
+
+  final void Function() startQuiz;
 
   @override
   Widget build(context) {
@@ -10,11 +12,23 @@ class StartScreen extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
+          // Images
           Image.asset(
             'assets/images/quiz-logo.png',
             width: 300,
+            color: const Color.fromARGB(150, 255, 255, 255),
           ),
+          // Opacity(
+          //   opacity: 0.6,
+          //   child: Image.asset(
+          //     'assets/images/quiz-logo.png',
+          //     width: 300,
+          //   ),
+          // ),
+
           const SizedBox(height: 80),
+
+          //
           const Text(
             'Learn flutter the fun way!',
             style: TextStyle(
@@ -22,11 +36,16 @@ class StartScreen extends StatelessWidget {
               fontSize: 24,
             ),
           ),
+
           const SizedBox(height: 30),
-          ElevatedButton(
-            onPressed: () {},
+
+          // Button
+          ElevatedButton.icon(
+            //เก็บ object เป็น QuestionScreen เมื่อกดปุ่มก็จะไปที่หน้า QuestionScreen เลย
+            onPressed: startQuiz,
             style: ElevatedButton.styleFrom(foregroundColor: Colors.white),
-            child: const Text('Start Quiz'),
+            icon: const Icon(Icons.arrow_forward_rounded),
+            label: const Text('Start Quiz'),
           ),
         ],
       ),
