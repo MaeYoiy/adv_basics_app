@@ -1,6 +1,8 @@
 import 'package:avd_basics/question_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:avd_basics/start_screen.dart';
+import 'package:avd_basics/data/questions.dart';
+import 'package:avd_basics/results_screen.dart';
 
 class Quiz extends StatefulWidget {
   const Quiz({super.key});
@@ -12,6 +14,9 @@ class Quiz extends StatefulWidget {
 }
 
 class _QuizState extends State<Quiz> {
+  // ตัวแปรที่เก็บ List ของคำตอบที่เราได้เลือกไว้
+  List<String> selectedAnswer = [];
+
   // "?" เพื่อบอกว่า activeScreen สามารถ contain Widget or Null
   var activeScreen = 'start-screen';
 
@@ -25,17 +30,40 @@ class _QuizState extends State<Quiz> {
 
   // Link to Next Page
   void switchScreen() {
+    //การเรียก setState ทำให้ Flutter รู้ว่า state ภายใน StatefulWidget ได้เปลี่ยนแปลงแล้ว และจะทำการ rebuild ตัวเอง.
     setState(() {
       activeScreen = 'question-screen';
     });
+  }
+
+  void chooseAnswer (String answer) {
+    selectedAnswer.add(answer);
+
+    //เมื่อทำการเลือก answer เกิน list ของ questions แล้ว ให้ทำการไปยังหน้า result เลย
+    if (selectedAnswer.length == questions.length) {
+
+      setState(() {
+        // reset answer ที่เลือก
+        // selectedAnswer = [];
+        activeScreen = 'results-screen';
+      });
+
+    }
   }
 
   @override
   Widget build(context) {
     Widget screenWidget = StartScreen(switchScreen);
 
+    // ไปหน้าคำถาม (question_screen)
     if (activeScreen == 'question-screen') {
-      screenWidget = const QuestionScreen();
+      screenWidget = QuestionScreen(onSelectAnswer: chooseAnswer,);
+    }
+
+    //ไปหน้าผลลัพธ์ (results_screen)
+    if (activeScreen == 'results-screen') {
+      // ค่า input selectedAnswer นี้ จะถูกส่งไปยัง class/widget ResultScreen ที่อยู่ในไฟล์ results_screen.dart
+      screenWidget = ResultScreen(chosenAnswers: selectedAnswer,);
     }
 
     return MaterialApp(
