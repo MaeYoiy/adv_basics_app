@@ -58,7 +58,8 @@ class _QuestionScreen extends State<QuestionScreen> {
             const SizedBox(height: 30),
 
             // ... จะรับค่าทั้งหมดใน List หรือ Iterable และดึงออกจาก List โดยจะได้ค่าเดียวและคั่นด้วยเครื่องหมายจุลภาค
-            ...currentQuestion.getSuffledAnswers().map((eAnswer) {
+            // ใช้ Map ซึ่งสามารถเรียกใช้ใน List เพื่อสร้าง List ใหม่ของ List ที่แปลงแล้ว เช่นเพื่อแปลง List<string> answer  List<widget> answer ที่แตะได้
+            ...currentQuestion.shuffledAnswers.map((eAnswer) {
               return AnswerButton(answerText: eAnswer, onTap: () {
                 answerQuestion(eAnswer);
               },);

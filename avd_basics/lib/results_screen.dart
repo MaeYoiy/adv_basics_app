@@ -18,6 +18,7 @@ class ResultScreen extends StatelessWidget {
 
     for ( var i = 0; i < chosenAnswers.length; i++) {
       summary.add({
+        // Question_index == key, i == value ใน concept Map
         'Question_index': i,
         'Question': questions[i].text,
         // answer[0] เป็นคำตอบที่ถูกต้องเสมอ
@@ -39,6 +40,9 @@ class ResultScreen extends StatelessWidget {
       //ถ้าค่าที่อยู่ใน 'User_answer' เท่ากับค่าที่อยู่ใน 'Correct_answer', ฟังก์ชันจะคืนค่า true, ซึ่งหมายความว่าข้อมูลนี้จะถูกเก็บไว้ในผลลัพธ์.
       return data['User_answer'] == data['Correct_answer'];
     }).length; //หลังจากที่ข้อมูลถูกกรองด้วย where, .length ถูกใช้เพื่อนับจำนวนข้อมูลที่ผ่านเงื่อนไข. นั่นคือ, numCorrectQuestions จะเก็บจำนวนข้อมูลที่มีค่า 'User_answer' เท่ากับ 'Correct_answer' ใน summaryData.
+
+    //function arrow (มีค่าเหมือนกับโค้ดด้านบน)
+    // final numCorrectQuestions = summaryData.where((data) => data['User_answer'] == data['Correct_answer']).length;
 
     return SizedBox(
       width: double.infinity,
