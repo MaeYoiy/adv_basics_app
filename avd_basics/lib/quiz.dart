@@ -28,7 +28,7 @@ class _QuizState extends State<Quiz> {
   //   activeScreen = StartScreen(switchScreen);
   // }
 
-  // Link to Next Page
+  // Start screen -> Questions screen
   void switchScreen() {
     //การเรียก setState ทำให้ Flutter รู้ว่า state ภายใน StatefulWidget ได้เปลี่ยนแปลงแล้ว และจะทำการ rebuild ตัวเอง.
     setState(() {
@@ -36,6 +36,7 @@ class _QuizState extends State<Quiz> {
     });
   }
 
+  // Questions screen -> Result screen
   void chooseAnswer (String answer) {
     selectedAnswer.add(answer);
 
@@ -43,12 +44,19 @@ class _QuizState extends State<Quiz> {
     if (selectedAnswer.length == questions.length) {
 
       setState(() {
-        // reset answer ที่เลือก
-        // selectedAnswer = [];
         activeScreen = 'results-screen';
       });
 
     }
+  }
+
+  // Result screen -> Questions screen
+  void restartQuiZ() {
+    setState(() {
+      // reset answer ที่เลือก
+      selectedAnswer = [];
+      activeScreen = 'question-screen';
+    });
   }
 
   @override
@@ -63,7 +71,10 @@ class _QuizState extends State<Quiz> {
     //ไปหน้าผลลัพธ์ (results_screen)
     if (activeScreen == 'results-screen') {
       // ค่า input selectedAnswer นี้ จะถูกส่งไปยัง class/widget ResultScreen ที่อยู่ในไฟล์ results_screen.dart
-      screenWidget = ResultScreen(chosenAnswers: selectedAnswer,);
+      screenWidget = ResultScreen(
+        chosenAnswers: selectedAnswer,
+        onRestart: restartQuiZ,
+      );
     }
 
     return MaterialApp(

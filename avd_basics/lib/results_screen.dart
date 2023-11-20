@@ -1,15 +1,18 @@
 
 import 'package:flutter/material.dart';
 import 'package:avd_basics/data/questions.dart';
-import 'package:avd_basics/questions_summary.dart';
+import 'package:avd_basics/questions_summary/questions_summary.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ResultScreen extends StatelessWidget {
-  const ResultScreen({super.key, required this.chosenAnswers});
+  const ResultScreen({super.key, required this.chosenAnswers, required this.onRestart});
 
   // หากเราต้องการรับข้อมูลบางอย่างใน widget ถ้าเราต้องการส่งข้อมูลบางอย่างไปยัง widget เราต้องยอมรับ argument super.key ใน function constructor
   // ตัวอย่างเช่น เพื่อใช้มันใน method build เราต้องเพิ่มคุณสมบัติพิเศษให้กับคลาส ResultScreen ด้วย
   // อย่าง
   final List<String> chosenAnswers;
+  // button ที่กดทำแบบนี้หมด
+  final void Function() onRestart;
 
   // Method
   // Map มีค่า Key=String กับ Value=Object
@@ -51,12 +54,30 @@ class ResultScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('You answered $numCorrectQuestions out of $numTotalQuestions questions correctly',),
+            Text('You answered $numCorrectQuestions out of $numTotalQuestions questions correctly',
+              style: GoogleFonts.lato(
+                color: const Color.fromARGB(255, 230, 200, 253),
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.center,
+            ),
+
             const SizedBox(height: 30,),
+
             // ส่วนที่สามารถเลื่อนได้
             QuestionsSummary(summaryData),
+
             const SizedBox(height: 30,),
-            TextButton(onPressed: () {}, child: const Text('Restart quiz'),),
+
+            TextButton.icon(
+              onPressed: onRestart,
+              style: TextButton.styleFrom(
+                foregroundColor: Colors.white,
+              ),
+              icon: const Icon(Icons.refresh),
+              label: const Text('Restart Quiz'),
+            ),
           ],
         ),
       ),
